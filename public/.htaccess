@@ -1,9 +1,21 @@
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
 
     RewriteEngine On
+
+    # Redirect HTTPS...
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Authentification
+    AuthUserFile /home/alohacomo/attente.aloha-com.net/public/.htpasswd
+    AuthName "L'acces a ce repertoire est securise."
+    AuthType Basic
+    Require valid-user
+
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
